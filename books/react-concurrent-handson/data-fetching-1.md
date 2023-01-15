@@ -27,7 +27,7 @@ async function fetchData1(): Promise<string> {
 しかし、残念ながらこれはうまくいきません。なぜうまくいかないのかを理解するために、とりあえず実装してみましょう。想定される実装はこんな感じです。
 
 ```tsx
-const DataLoader: React.VFC = () => {
+const DataLoader: React.FC = () => {
   const [data, setData] = useState<string | null>(null);
   // dataがまだ無ければローディングを開始する
   if (data === null) {
@@ -68,7 +68,7 @@ function App() {
 ところで、ステートの記憶領域がないことが問題ならば、それを用意してからサスペンドさせるとどうなるでしょうか。つまり`DataLoader`が初手でサスペンドするのではなく、ボタンを押したらサスペンドするようにしてみます。
 
 ```tsx
-const DataLoader: React.VFC = () => {
+const DataLoader: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<string | null>(null);
   // ローディングフラグが立っていてdataがまだ無ければローディングを開始する
@@ -100,7 +100,7 @@ const DataLoader: React.VFC = () => {
 後者がどういうことかを理解するために、コンポーネントを次のように変えてみましょう。
 
 ```diff tsx
- const DataLoader: React.VFC = () => {
+ const DataLoader: React.FC = () => {
    const [loading, setLoading] = useState(false);
    const [data, setData] = useState<string | null>(null);
    // ローディングフラグが立っていてdataがまだ無ければローディングを開始する
@@ -133,7 +133,7 @@ Promiseをthrowする前に、500ミリ秒後の`setData`を仕込みました�
 では、`boom!`を追加する前のコードをもう一度見てみましょう。
 
 ```tsx
-const DataLoader: React.VFC = () => {
+const DataLoader: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<string | null>(null);
   // ローディングフラグが立っていてdataがまだ無ければローディングを開始する
@@ -165,7 +165,7 @@ const DataLoader: React.VFC = () => {
 具体的には、useStateのステート（レンダリング中にステート更新を起こすのはよろしくありませんが）やuseMemoのメモ化結果などです。後者は普通にあり得るシチュエーションなので、これを観察してみましょう。
 
 ```diff tsx
- export const DataLoader: React.VFC = () => {
+ export const DataLoader: React.FC = () => {
    const [loading, setLoading] = useState(false);
    const [data, setData] = useState<string | null>(null);
 
